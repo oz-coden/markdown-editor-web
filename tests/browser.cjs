@@ -42,7 +42,7 @@ const key = 'oz_markdown_editor_v1';
         await check('live edits preserve Unicode and restore the exact source after reload', async () => {
             const source = '# 日本語 😀\n\n**太字**と~~取り消し線~~\n\n末尾の空白  \n';
             await editor.fill(source);
-            await page.waitForFunction(source => JSON.parse(localStorage.getItem('oz_markdown_editor_v1')).text === source, source);
+            await page.waitForFunction(source => JSON.parse(localStorage.getItem('oz_markdown_editor_v1'))?.text === source, source);
             await ready();
             assert.equal(await frame.locator('h1').innerText(), '日本語 😀');
             await page.locator('#filename').fill('日本語.md');
@@ -166,11 +166,11 @@ const key = 'oz_markdown_editor_v1';
         });
         await check('another tab cannot silently overwrite this tab or be overwritten on pagehide', async () => {
             await editor.fill('# first');
-            await page.waitForFunction(() => JSON.parse(localStorage.getItem('oz_markdown_editor_v1')).text === '# first');
+            await page.waitForFunction(() => JSON.parse(localStorage.getItem('oz_markdown_editor_v1'))?.text === '# first');
             const other = await context.newPage();
             await other.goto(base);
             await other.locator('#markdown-input').fill('# second');
-            await other.waitForFunction(() => JSON.parse(localStorage.getItem('oz_markdown_editor_v1')).text === '# second');
+            await other.waitForFunction(() => JSON.parse(localStorage.getItem('oz_markdown_editor_v1'))?.text === '# second');
             await page.getByText('別タブで保存が更新されたため、自動保存を停止中', { exact: true }).waitFor();
             assert.equal(await editor.inputValue(), '# first');
             await editor.fill('# first edited');
