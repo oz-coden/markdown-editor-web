@@ -133,6 +133,8 @@
         dialog.showModal();
     }
     dialog.addEventListener('close', () => {
+        // A queued close event must not consume a replacement from a reopened dialog.
+        if (dialog.open) return;
         const pending = pendingReplacement;
         pendingReplacement = null;
         if (dialog.returnValue !== 'replace' || !pending) return;

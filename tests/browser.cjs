@@ -110,6 +110,7 @@ const key = 'oz_markdown_editor_v1';
             assert.equal(await editor.inputValue(), source);
             await page.locator('#reset-button').click();
             await page.locator('#replace-confirm').click();
+            await page.waitForFunction(() => document.getElementById('markdown-input').value === '');
             assert.equal(await editor.inputValue(), '');
             await page.reload();
             await ready();

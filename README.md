@@ -38,7 +38,7 @@ The parser uses Marked's GitHub-flavored Markdown mode. Rendering resembles GitH
 
 Safe HTML elements, including `details`, `summary` and `kbd`, can be displayed. Scripts, embedded frames, styles, forms and event handlers are removed. Task-list checkboxes are display-only. Absolute HTTP(S) and `mailto:` links open separately when selected. Relative links and fragment links are displayed as text without navigation.
 
-The preview accepts up to **200,000 UTF-16 code units**, with a 2.5-second parsing timeout. If the limit is exceeded, previewing stops while the source remains editable and downloadable. File opening accepts one UTF-8 file of at most **1 MiB**, subject to the same text limit. A UTF-8 BOM is removed when opening a file. Invalid UTF-8 is rejected without replacing the current draft.
+The preview accepts up to **200,000 UTF-16 code units**, with a 2.5-second parsing timeout. If the limit is exceeded, previewing stops while the source remains editable and downloadable. File opening accepts one UTF-8 file of at most **1 MiB**, subject to the same text limit. A UTF-8 BOM is removed when opening a file, and the editor normalizes line endings to LF. Invalid UTF-8 is rejected without replacing the current draft.
 
 ## Requirements, Dependencies
 
@@ -150,7 +150,7 @@ MarkedのGitHub Flavored Markdownモードを使います。見た目はGitHub�
 
 `details`・`summary`・`kbd`など、安全なHTML要素を表示できます。スクリプト、埋め込みフレーム、スタイル、フォーム、イベントハンドラーは除去します。チェックリストは表示専用です。HTTP(S)・`mailto:`の絶対URLのリンクは別に開きます。相対リンクとフラグメントリンクは、移動できないテキストとして表示します。
 
-プレビューの上限は**20万UTF-16コード単位**で、変換に2.5秒以上かかる場合は停止します。超過しても元の内容は編集・保存できます。ファイル読み込みは**1 MiB以下のUTF-8ファイルを1つずつ**受け付け、同じ文字数上限を適用します。UTF-8のBOMは読み込み時に除去します。不正なUTF-8は読み込まず、現在の内容を保持します。
+プレビューの上限は**20万UTF-16コード単位**で、変換に2.5秒以上かかる場合は停止します。超過しても元の内容は編集・保存できます。ファイル読み込みは**1 MiB以下のUTF-8ファイルを1つずつ**受け付け、同じ文字数上限を適用します。UTF-8のBOMは読み込み時に除去し、改行はエディター内でLFにそろえます。不正なUTF-8は読み込まず、現在の内容を保持します。
 
 ## 前提・依存
 
