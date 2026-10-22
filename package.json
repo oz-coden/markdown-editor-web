@@ -1,0 +1,16 @@
+{
+  "name": "markdown-editor-web",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "check": "node --check script.js && node --check preview.js && node --check parser-worker.js && node --test tests/assets.test.cjs",
+    "vendor": "node scripts/vendor.mjs",
+    "test": "node tests/browser.cjs"
+  },
+  "devDependencies": {
+    "dompurify": "3.4.17",
+    "marked": "18.1.1",
+    "playwright": "1.56.1"
+  }
+}

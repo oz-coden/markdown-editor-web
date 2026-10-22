@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Markdownを編集しながらプレビュー。ファイルの読み込み・保存、自動保存に対応したブラウザ用エディターです。">
+    <title>Markdown Editor | oz-coden tools</title>
+    <script src="vendor/ui/ui.js"></script>
+    <link rel="stylesheet" href="vendor/ui/ui.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="vendor/dompurify/purify.min.js" defer></script>
+    <script src="preview.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="ui-header" data-ui-header data-title="Markdown Editor" data-source="https://github.com/oz-coden/markdown-editor-web">
+        <a class="ui-brand" href="https://tools.oz-coden.com/">oz-coden tools</a>
+    </header>
+    <main class="ui-main ui-wide">
+        <div class="ui-heading">
+            <p class="ui-eyebrow">TEXT TOOLS</p>
+            <h1>Markdown Editor</h1>
+            <p class="ui-description">書きながら、仕上がりを確認。Markdownをブラウザで手軽に編集できます。</p>
+        </div>
+        <section class="ui-panel document-bar" aria-label="ファイル操作">
+            <div class="file-name">
+                <label for="filename">ファイル名</label>
+                <input id="filename" type="text" value="document.md" maxlength="120" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="ui-actions">
+                <input id="open-file" type="file" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden>
+                <button id="open-button" class="ui-button" type="button">ファイルを開く</button>
+                <button id="save-button" class="ui-button ui-button-primary" type="button" title="Ctrl / ⌘ + S">Markdownを保存</button>
+                <button id="copy-button" class="ui-button" type="button">コピー</button>
+                <button id="sample-button" class="ui-button" type="button">サンプル</button>
+                <button id="reset-button" class="ui-button" type="button">リセット</button>
+            </div>
+        </section>
+        <div class="workspace-options">
+            <div class="view-switch" role="group" aria-label="表示モード">
+                <button class="view-button" data-view="split" aria-pressed="true" type="button">分割</button>
+                <button class="view-button" data-view="editor" aria-pressed="false" type="button">編集</button>
+                <button class="view-button" data-view="preview" aria-pressed="false" type="button">プレビュー</button>
+            </div>
+            <label class="image-option"><input id="external-images" type="checkbox"> 外部画像を読み込む</label>
+        </div>
+        <div id="workspace" class="workspace" data-view="split">
+            <section id="editor-panel" class="editor-panel" aria-labelledby="editor-heading">
+                <div class="pane-heading"><h2 id="editor-heading"><label for="markdown-input">Markdown</label></h2><span class="pane-note">Ctrl / ⌘ + S で保存</span></div>
+                <div class="format-toolbar" role="group" aria-label="書式を挿入">
+                    <button type="button" data-format="heading" title="見出しを挿入">H2</button>
+                    <button type="button" data-format="bold" title="太字を挿入 (Ctrl / ⌘ + B)"><strong>B</strong><span class="sr-only"> 太字</span></button>
+                    <button type="button" data-format="italic" title="斜体を挿入 (Ctrl / ⌘ + I)"><em>I</em><span class="sr-only"> 斜体</span></button>
+                    <button type="button" data-format="link">リンク</button>
+                    <button type="button" data-format="list">リスト</button>
+                    <button type="button" data-format="task">チェック</button>
+                    <button type="button" data-format="quote">引用</button>
+                    <button type="button" data-format="code">コード</button>
+                    <button type="button" data-format="table">表</button>
+                </div>
+                <textarea id="markdown-input" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="# ここから書き始めよう" aria-describedby="editor-help"></textarea>
+                <div class="pane-footer"><span id="counts">0文字 · 0行</span><span id="save-status" role="status">このブラウザに自動保存</span></div>
+            </section>
+            <section id="preview-panel" class="preview-panel" aria-labelledby="preview-heading">
+                <div class="pane-heading"><h2 id="preview-heading">プレビュー</h2><span class="pane-note">GitHub風のMarkdown</span></div>
+                <iframe id="preview" title="Markdownのプレビュー" sandbox="allow-popups allow-popups-to-escape-sandbox" referrerpolicy="no-referrer"></iframe>
+                <div class="pane-footer"><span id="render-status" role="status">プレビューを準備しています…</span></div>
+            </section>
+        </div>
+        <p id="tool-status" class="ui-status" role="status" aria-live="polite"></p>
+        <p id="editor-help" class="ui-note">入力内容はこのブラウザに自動保存されます。Markdownの変換は端末内で行います。外部画像の読み込みを有効にすると、画像の取得先に通信します。</p>
+        <details class="help-panel">
+            <summary>対応する記法と使い方</summary>
+            <p>見出し、強調、引用、リスト、リンク、画像、表、チェックリスト、取り消し線、コードブロックに対応しています。HTMLは安全な要素だけを表示します。GitHub独自の機能、数式、Mermaid、コードの色分けには対応していません。</p>
+            <p>スマホでは「編集」と「プレビュー」を切り替えられます。「分割」は縦に並びます。書式ボタンは選択した文字列に適用されます。Tabキーでは次の操作項目へ移動できます。</p>
+            <p>プレビューの上限は20万UTF-16コード単位です。超過しても入力とMarkdownの保存はできます。読み込めるファイルはUTF-8、1 MiB以下で、同じ文字数上限が適用されます。相対パスの画像は表示できません。自動保存はバックアップではないため、必要な内容はファイルとして保存してください。</p>
+        </details>
+        <noscript><p class="ui-error">このエディターを使うにはJavaScriptを有効にしてください。</p></noscript>
+    </main>
+    <dialog id="replace-dialog" class="ui-dialog" aria-labelledby="replace-title" aria-describedby="replace-description">
+        <h2 id="replace-title">編集内容を置き換えますか？</h2>
+        <p id="replace-description">現在の内容と自動保存データが置き換わります。必要な内容は先にMarkdownとして保存してください。</p>
+        <form method="dialog" class="ui-actions">
+            <button class="ui-button" value="cancel" autofocus>キャンセル</button>
+            <button id="replace-confirm" class="btn-danger" value="replace">置き換える</button>
+        </form>
+    </dialog>
+</body>
+</html>
