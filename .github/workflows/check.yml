@@ -4,7 +4,7 @@ permissions:
   contents: read
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v6
@@ -14,5 +14,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
-      - run: npx playwright install --with-deps --only-shell chromium
+      - run: npx playwright install --only-shell chromium
       - run: npm test

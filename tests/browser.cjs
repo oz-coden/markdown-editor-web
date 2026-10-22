@@ -44,7 +44,7 @@ const key = 'oz_markdown_editor_v1';
             await editor.fill(source);
             await page.waitForFunction(source => JSON.parse(localStorage.getItem('oz_markdown_editor_v1'))?.text === source, source);
             await ready();
-            assert.equal(await frame.locator('h1').innerText(), '日本語 😀');
+            await frame.getByRole('heading', { name: '日本語 😀', exact: true }).waitFor();
             await page.locator('#filename').fill('日本語.md');
             await page.reload();
             await ready();
